@@ -1,10 +1,50 @@
 const canvas = document.querySelector('#myCanvas');
 const ctx = canvas.getContext('2d');
 
-const player = {x:50, y:50};
+const player = {x:50, y:50, speed: 5};
+const keyz = {
+  ArrowRight:false,
+ ArrowLeft:false,
+  ArrowUp:false,
+  ArrowDown:false};
 draw();
 
+document.addEventListener('keydown', keyDown);
+document.addEventListener('keyup', keyUp);
+
+function keyDown(event){
+   keyz[event.code] = true;
+   console.log(keyz);
+   move();
+}
+function keyUp(event){
+  keyz[event.code] = false;
+  console.log(keyz);
+  
+}
+
+function move(){
+
+  if(keyz.ArrowRight){
+    player.x +=player.speed;
+  }else if(keyz.ArrowLeft){
+    player.x -= player.speed;
+  };
+
+  if(keyz.ArrowUp){
+    player.y -= player.speed;
+  }else if(keyz.ArrowDown){
+     player.y += player.speed;
+     
+  };
+  draw();
+}
+
+
+
+
 function draw(){
+  ctx.clearRect(0,0,canvas.width, canvas.height);
   let output = `Pos X ${player.x} Y ${player.y}`;
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(player.x,player.y,100,100);
@@ -14,7 +54,7 @@ function draw(){
   ctx.fillText(output, 300,30);
 
   //triangle
-  ctx.beginPath();
+  /*ctx.beginPath();
   ctx.fillStyle='blue';
   ctx.moveTo(50,200);
   ctx.lineTo(150,250);
@@ -26,7 +66,7 @@ function draw(){
   ctx.arc(150,300,50,0,2*Math.PI);
   ctx.strokeStyle = 'yellow';
   ctx.fill();
-  ctx.stroke();
+  ctx.stroke();*/
 
 //ctx.rect();
 
