@@ -28,7 +28,7 @@ const keyz2 = {
     KeyW:false,
     KeyX:false};
 
-draw();
+requestAnimationFrame(draw);
 
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
@@ -44,7 +44,7 @@ function keyDown(event){
    
    
    //console.log(event.code);
-   move();
+ 
 }
 function keyUp(event){
   if(event.code in keyz1){
@@ -87,7 +87,7 @@ function move(){
      player2.y += player2.speed;
      
   };
-  draw();
+ 
 }
 
 
@@ -95,6 +95,8 @@ function move(){
 
 function draw(){
   ctx.clearRect(0,0,canvas.width, canvas.height);
+
+  move();
   
   ctx.fillStyle = 'blue';
   ctx.fillRect(player1.x,player1.y,player1.width,player1.height);
@@ -109,6 +111,7 @@ function draw(){
   ctx.textAlign ='center';
   ctx.fillStyle = 'red';
   ctx.fillText(output, 300,30);
+  requestAnimationFrame(draw);
 
   //triangle
   /*ctx.beginPath();
