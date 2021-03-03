@@ -5,14 +5,14 @@ const player1 = {
   x:50, 
   y:50, 
   speed: 5,
-  width: 15,
+  width: 55,
   height: 100
 };
 const player2 = {
   x:550, 
   y:50, 
   speed: 5,
-  width: 15,
+  width: 55,
   height: 100
 };
 const keyz1 = {
@@ -91,12 +91,31 @@ function move(){
 }
 
 
+function checkCol(ob1, ob2){
+    //console.log(ob1.x);
+    //console.log(ob2.x+ob2.width);
+   /* if(ob1.x < ob2.x+ob2.width && ob1.x + ob1.width > ob2.x){
+      console.log('X hit');
+    }
 
+    if(ob1.y < ob2.y+ob2.height && ob1.y + ob1.height > ob2.y){
+      console.log('Y hit');
+    }*/
+    let val = ob1.x < ob2.x+ob2.width && ob1.x + ob1.width > ob2.x && ob1.y < ob2.y+ob2.height && ob1.y + ob1.height > ob2.y ;
+
+    if(val){
+      console.log(val);
+    }
+
+    return val;
+}
 
 function draw(){
   ctx.clearRect(0,0,canvas.width, canvas.height);
 
   move();
+
+  checkCol(player1,player2);
   
   ctx.fillStyle = 'blue';
   ctx.fillRect(player1.x,player1.y,player1.width,player1.height);
