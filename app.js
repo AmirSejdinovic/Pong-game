@@ -1,20 +1,39 @@
 const canvas = document.querySelector('#myCanvas');
 const ctx = canvas.getContext('2d');
+const btn = document.createElement('button');
+const div = document.createElement('div');
+btn.addEventListener('click',()=>{
+  //reset game
+  player1.score = 0;
+  player2.socre = 0;
+  ballReset();
+  player1.x = 50;
+  player2.x = canvas.width - (50 + player2.width);
+  player1.y = (canvas.height/2 + player1.height) /2;
+  player2.y = (canvas.height/2 + player2.height) /2;
+});
+document.body.prepend(div);
+div.append(btn);
+btn.textContent = 'Game Reset';
 let speed = 5;
+
+
 
 const player1 = {
   x:50, 
   y:50, 
   speed: 5,
-  width: 55,
-  height: 400
+  width: 35,
+  height: 100,
+  score:0
 };
 const player2 = {
   x:550, 
   y:50, 
   speed: 5,
-  width: 55,
-  height: 400
+  width: 35,
+  height: 100,
+  score:0
 };
 
 const ball = {
@@ -71,11 +90,20 @@ function keyUp(event){
   
 }
 
+function ballReset(){
+ 
+    ball.x = canvas.width/2;
+    ball.y = canvas.height/2;
+    ball.xs = speed;
+    ball.ys = -speed;
+ 
+}
+
 function move(){
 
-  if(keyz1.ArrowRight){
+  if(keyz1.ArrowRight && player1.x < (canvas.width/2-player1.width)){
     player1.x +=player1.speed;
-  }else if(keyz1.ArrowLeft){
+  }else if(keyz1.ArrowLeft && player1.x > 0){
     player1.x -= player1.speed;
   };
 
@@ -86,9 +114,9 @@ function move(){
      
   };
 
-  if(keyz2.KeyS){
+  if(keyz2.KeyS && player2.x < (canvas.width-player2.width)){
     player2.x +=player2.speed;
-  }else if(keyz2.KeyA){
+  }else if(keyz2.KeyA && player2.x > (canvas.width/2-player2.width)){
     player2.x -= player2.speed;
   };
 
@@ -102,9 +130,19 @@ function move(){
   ball.x += ball.xs;
   ball.y += ball.ys;
 
-  if((ball.x < 0 || ball.x > canvas.width)){
-    ball.xs *= -1;
+  if(ball.x < 0){
+    player2.score ++;
+    ballReset();
   }
+
+  if(ball.x > canvas.width){
+     player1.score ++;
+     ballReset();
+  }
+
+  /*if((ball.x < 0 || ball.x > canvas.width)){
+    ball.xs *= -1;
+  }*/
   if((ball.y < 0 || ball.y > canvas.height)){
      ball.ys *= -1;
   }
@@ -175,12 +213,12 @@ function draw(){
   ctx.fillStyle = 'white';
   ctx.fillRect(ball.x, ball.y,ball.width,ball.height);
 
-  let output = `Player 1 Pos X ${player1.x} Y ${player1.y} Player 2 Pos X ${player2.x} Y ${player2.y}`;
+  //let output = `Player 1 Pos X ${player1.x} Y ${player1.y} Player 2 Pos X ${player2.x} Y ${player2.y}`;
+  let output = `Player 1 : ${player1.score} vs Player 2 : ${player2.score}`
 
-
-  ctx.font = '12px serif';
+  ctx.font = '24px arial';
   ctx.textAlign ='center';
-  ctx.fillStyle = 'red';
+  ctx.fillStyle = 'white';
   ctx.fillText(output, 300,30);
   requestAnimationFrame(draw);
 
